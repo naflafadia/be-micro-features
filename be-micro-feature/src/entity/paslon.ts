@@ -1,24 +1,23 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
-export class article {
+export class paslon {
 
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    author: string
+    @Column({ type: "int" })
+    no: number
 
     @Column()
-    title: string
-
-    @Column("date")
-    date: string
+    name: string
 
     @Column()
-    description: string
+    visionAndMission: string
+
+    @Column()
+    coalition: string
 
     @Column({ nullable: true })
     picture: string
-
 }

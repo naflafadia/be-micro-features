@@ -1,22 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
-export class article {
+export class partai {
 
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    author: string
+    @Column({ type: "int" })
+    no: number
 
     @Column()
-    title: string
-
-    @Column("date")
-    date: string
+    chairman: string
 
     @Column()
-    description: string
+    visionAndMission: string
+
+    @Column()
+    address: string
 
     @Column({ nullable: true })
     picture: string
