@@ -1,32 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn,} from "typeorm"
+import { paslon } from "./paslon"
+import { user } from "./user"
 
 @Entity()
 export class vote {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id: number
 
-    @Column({ type: "int" })
-    no: number;
+    @OneToOne(() => user, (user) => user.vote, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
+    @JoinColumn()
+    user : user
 
-    @Column()
-    name: string;
-
-    @Column()
-    address: string;
-
-    @Column({ type: "int" })
-    accumulation: number;
-
-    @Column({ type: "int" })
-    numberOfVotes: number;
-
-    @Column()
-    gender: string;
-
-    @Column()
-    paslon: string;
-
-    @Column({ nullable: true })
-    picture: string;
+    @ManyToOne(() => paslon , (paslon) => paslon.vote, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
+    paslon : paslon
 }

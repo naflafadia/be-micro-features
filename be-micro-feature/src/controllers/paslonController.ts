@@ -46,7 +46,6 @@ export default new class paslonController {
                 no: req.body.no,
                 name: req.body.name,
                 visionAndMission: req.body.visionAndMission,
-                coalition: req.body.coalition,
                 picture: res.locals.filename
             }
             const { error, value } = createPaslonSchema.validate(data)
@@ -60,7 +59,6 @@ export default new class paslonController {
                 no: value.no,
                 name: value.name,
                 visionAndMission: value.visionAndMission,
-                coalition: value.coalition,
                 picture: cloudinaryRes.secure_url
             }
 
@@ -68,6 +66,31 @@ export default new class paslonController {
             return res.status(200).json(response);
         } catch (error) {
             console.error("Error creating paslon:", error);
+            return res.status(500).json({ message: "Internal server error", error: error.message });
+        }
+    }
+
+    async update(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id, 10);
+            const data = req.body;
+    
+            const response = await paslonService.update(id, data);
+            return res.status(200).json(response);
+        } catch (error) {
+            console.error("Error updating paslon:", error);
+            return res.status(500).json({ message: "Internal server error", error: error.message });
+        }
+    }
+
+    async delete(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id, 10);
+    
+            const response = await paslonService.delete(id);
+            return res.status(200).json({ message: response });
+        } catch (error) {
+            console.error("Error deleting paslon:", error);
             return res.status(500).json({ message: "Internal server error", error: error.message });
         }
     }

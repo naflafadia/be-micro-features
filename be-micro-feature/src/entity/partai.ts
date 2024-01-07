@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
+import { paslon } from "./paslon"
 
 @Entity()
 export class partai {
@@ -6,8 +7,8 @@ export class partai {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ type: "int" })
-    no: number
+    @Column()
+    name: string
 
     @Column()
     chairman: string
@@ -21,4 +22,6 @@ export class partai {
     @Column({ nullable: true })
     picture: string
 
+    @ManyToOne(() => paslon, (paslon) => paslon.partai)
+    paslon: paslon
 }

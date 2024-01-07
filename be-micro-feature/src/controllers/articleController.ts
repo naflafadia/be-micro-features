@@ -1,45 +1,73 @@
 import { Request, Response } from "express";
 import articleService from "../services/articleService";
-import { createArticleSchema } from "../utils/validator/articleValidator";
+import { createArticleSchema, getOneArticleValidation } from "../utils/validator/articleValidator";
 import cloudinary from "../libs/cloudinary";
 
 export default new class articleController {
     async findAll(req: Request, res : Response) {
         try {
-            const data = await articleService.findAll();
-            let response = {
-                message: "success",
-                data
-            }
-
+            const response = await articleService.findAll();
             return res.status(200).json(response);
         } catch (error) {
-            console.error("Error getting all article:", error);
-            return res.status(500).json({ message: "Internal server error", error: error.message });
-        }
+                console.error("Error getting all article:", error);
+                return res.status(500).json({ message: "Internal server error", error: error.message });
+            }
     }
 
     async findOne(req: Request, res: Response) {
         try {
-            const id = parseInt(req.params.id, 10); 
-            const data = await articleService.findOne(id);
+            const id = parseInt(req.params.id, 10);
+            const { error, value } = getOneArticleValidation.validate({id});
+
+            if (error) {
+                return res.status(400).json({
+                    message: "Invalid ID provided",
+                    error: "Invalid input for type number"
+                })
+            }
+            const response = await articleService.findOne(value.id);
+            return res.status(201).json(response);
+        } catch (error) {
+            console.error("Error creating a Article:", error);
+            return res
+                .status(500)
+                .json({ message: "Internal server error", error: error.message });
+            }
+    }
+
+    async getAllArticleCard(req: Request, res: Response) {
+        try {
+          const response = await articleService.getAllArticlesCard();
+          return res.status(200).json(response);
+        } catch (error) {
+          console.error("Error getting all articles:", error);
+          return res
+            .status(500)
+            .json({ message: "Internal server error", error: error.message });
+        }
+      }
+
+      async getOneArticleCard(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id, 10);
     
-            if (typeof data === 'string') {
-                return res.status(404).json({ message: data });
+            if (isNaN(id)) {
+                return res.status(400).json({
+                    message: "Invalid ID provided",
+                    error: "Invalid input for type number",
+                });
             }
     
-            let response = {
-                message: "success",
-                data
-            };
-    
+            const response = await articleService.getOneArticlesCard(id);
             return res.status(200).json(response);
         } catch (error) {
-            console.error("Error getting article by id:", error);
-            return res.status(500).json({ message: "Internal server error", error: error.message });
+            console.error("Error getting a Article:", error);
+            return res.status(500).json({
+                message: "Internal server error",
+                error: error.message,
+            });
         }
     }
-    
     
     async create(req: Request, res : Response) {
         try {
@@ -58,10 +86,7 @@ export default new class articleController {
             const cloudinaryRes = await cloudinary.destination(value.picture)
 
             const obj = {
-                author: value.author,
-                title: value.title,
-                date: value.date,
-                description: value.description,
+                ...value,
                 picture: cloudinaryRes.secure_url
             }
 
@@ -72,4 +97,44 @@ export default new class articleController {
             return res.status(500).json({ message: "Internal server error", error: error.message });
         }
     }
+
+    async delete(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id, 10);
+            if (isNaN(id)) {
+            return res.status(400).json({
+                message: "Invalid ID provided",
+                error: "Invalid input for type number",
+                });
+            }
+        
+            const response = await articleService.delete(id);
+            return res.status(201).json(response);
+            } catch (error) {
+                console.error("Error creating a Article:", error);
+                return res
+                .status(500)
+                .json({ message: "Internal server error", error: error.message });
+            }
+        }
+
+    async update(req: Request, res: Response) {
+        try {
+            const id = parseInt(req.params.id, 10);
+            if (isNaN(id)) {
+                return res.status(400).json({
+                message: "Invalid ID provided",
+                error: "Invalid input for type number",
+                });
+            }
+            const data = req.body;
+            const response = await articleService.update(id, data);
+            return res.status(201).json(response);
+            } catch (error) {
+                console.error("Error creating a Article:", error);
+                return res
+                .status(500)
+                .json({ message: "Internal server error", error: error.message });
+            }
+        }
 }

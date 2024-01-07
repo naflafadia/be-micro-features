@@ -1,14 +1,17 @@
 import * as Joi from "joi"
 
 export const registerSchema = Joi.object({
-  fullName: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  fullName: Joi.string().max(100).required(),
+  address: Joi.string().max(100).required(),
+  username: Joi.string().max(100).required(),
+  gender: Joi.string().max(100).required(),
+  password: Joi.string().max(100).required(),
+  role: Joi.string().max(5).allow(null)
 })
 
 export const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  username: Joi.string().max(100).required(),
+  password: Joi.string().max(100).required()
 })
 
  export const getOneUserValidation = Joi.object({

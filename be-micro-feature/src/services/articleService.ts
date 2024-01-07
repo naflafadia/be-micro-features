@@ -1,57 +1,100 @@
-import { Repository } from "typeorm"
+import { Repository, getManager, UpdateResult } from "typeorm"
 import { article } from "../entity/article"
 import { AppDataSource } from "../data-source"
 
 export default new class ArticleServices {
     private readonly ArticleRepository : Repository<article> = AppDataSource.getRepository(article)
 
-    async findOne(id: number): Promise<object | string> {
-        try {
-            const response = await this.ArticleRepository
-                .createQueryBuilder("article")
-                .where("article.id = :id", { id })
-                .getOne();
-
-            if (!response) {
-                return "message: article not found";
-            }
-
-            const mappedArticle = {
-                id: response.id,
-                author: response.author,
-                title: response.title,
-                date: response.date,
-                description: response.description,
-                picture: response.picture
-            };
-
-            return mappedArticle;
-        } catch (error) {
-            return "message: something error while getting the article";
-        }
-    }
-
     async findAll(): Promise<object | string> {
         try {
-            const response = await this.ArticleRepository
-                .createQueryBuilder("article")
-                .getMany();
-
-            const mappingArticle = response.map((article) => {
-                return {
-                    id: article.id,
-                    author: article.author,
-                    title: article.title,
-                    date: article.date,
-                    picture: article.picture
+            const response = await this.ArticleRepository.find({
+                relations: ["user"],
+                select: {
+                    user: {
+                        fullName: true
+                    }
                 }
-            });
-
-            return mappingArticle;
+            })
+            return {
+                message: "success get all article",
+                data: response
+            }
         } catch (error) {
-            return "message: something error while getting all articles";
+            return "message: something error while get all article"
         }
     }
+
+    async findOne(id: number): Promise<object | string> {
+        try {
+          const response = await this.ArticleRepository.findOne({
+            where: { id },
+            relations: ["user"],
+            select: {
+              user: {
+                fullName: true,
+              },
+            },
+          });
+          return {
+            message: "success getting a Articles",
+            data: response,
+          };
+        } catch (error) {
+          return "message: something error while getting a Articles";
+        }
+      }
+
+      async getAllArticlesCard(): Promise<object | string> {
+        try {
+          const response = await this.ArticleRepository.find({
+            relations: {
+              user: true,
+            },
+            select: {
+              id: true,
+              title: true,
+              picture: true,
+              user: {
+                fullName: true,
+              },
+            },
+          });
+    
+          return {
+            message: "success getting all cards article",
+            data: response,
+          };
+        } catch (error) {
+            console.error("Error getting card article:", error);
+          return `message: something error while getting cards article`;
+        }
+      }
+
+      async getOneArticlesCard(id: number): Promise<object | string> {
+        try {
+          const response = await this.ArticleRepository.find({
+            where: { id },
+            relations: {
+              user: true,
+            },
+            select: {
+              id: true,
+              title: true,
+              picture: true,
+              user: {
+                fullName: true,
+              },
+            },
+          });
+    
+          return {
+            message: "success getting a card article",
+            data: response,
+          };
+        } catch (error) {
+          return "message: something error while getting card article";
+        }
+      }
 
     async create(reqBody: object) : Promise<object> {
         try {
@@ -63,6 +106,35 @@ export default new class ArticleServices {
             };
         } catch(error) {
             throw error;
+        }
+    }
+
+    async update(id: number, data: article): Promise<object | string> {
+        try {
+            const response = await this.ArticleRepository
+                .createQueryBuilder()
+                .update(article)
+                .set(data)
+                .where("id = :id", { id })
+                .execute();
+            return {
+                message: "success update article",
+                data: response
+            }
+        } catch (error) {
+            return "message: something error while update article"
+        }
+    }
+
+    async delete (id: number): Promise<object | string> {
+        try {
+            const response = await this.ArticleRepository.delete ({ id })
+            return {
+                message: "success delete article",
+                data: response
+            }
+        } catch (error) {
+            return "message: something error while delete article"
         }
     }
 }

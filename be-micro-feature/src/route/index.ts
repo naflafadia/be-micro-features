@@ -5,7 +5,7 @@ import paslonController from '../controllers/paslonController'
 import voteController from '../controllers/voteController'
 import authController from '../controllers/authController'
 import UploadFile from '../middlewares/UploadFile'
-import AuthMiddleware from '../middlewares/auth'
+import AuthMiddleware from '../middlewares/Auth'
 
 const router = express.Router();
 
@@ -25,14 +25,14 @@ router.get('/paslon/:id', paslonController.findOne);
 router.post('/paslon', UploadFile.upload("picture"), paslonController.create);
 
 // Route Vote
-router.get('/votes', voteController.findAll);
-router.get('/vote/:id', voteController.findOne);
-router.post('/vote', UploadFile.upload('picture'), voteController.create);
+router.post('/vote', AuthMiddleware.Auth, voteController.create)
+router.get('/vote', voteController.findAll)
+router.get('/vote/:id', voteController.findOne)
 
 // Route Auth
 router.post('/auth/register', authController.register)
 router.post('/auth/login', authController.login)
-router.get('/auth', AuthMiddleware.Auth, authController.getAll)
-router.get('/auth/:id', authController.getOne)
+router.get('/auth', AuthMiddleware.Auth, authController.findAll)
+router.get('/auth/:id', authController.findOne)
 
 export default router;

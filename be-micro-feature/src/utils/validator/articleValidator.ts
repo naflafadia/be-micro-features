@@ -7,3 +7,7 @@ export const createArticleSchema = Joi.object({
     description: Joi.string().min(10).max(250).required(),
     picture: Joi.string().allow(null)
 })
+
+export const getOneArticleValidation = Joi.object({
+    id: Joi.number().min(1).positive().required(),
+});
