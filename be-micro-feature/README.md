@@ -32,10 +32,10 @@
 - **JSON Body Example:**
 
 ```json
-{
+  {
     "username": "myren",
     "password": "1234"
-}
+  }
 ```
 Note: you will received token which is used to authorization
 
@@ -94,9 +94,9 @@ Note: you will received token which is used to authorization
 - **JSON Body Example:**
 
 ```json
-{
+  {
     "no": 2
-}
+  }
 ```
 ## D. Paslon
 
@@ -116,10 +116,10 @@ Note: you will received token which is used to authorization
 - **Method:** POST
 - **Form-data Body Example:**
 ```
-   name             = Gigi Hadid
-   no               = 2
-   visionAndMission = Memajukan UMKM
-   picture          = gigi.png
+    name             = Gigi Hadid
+    no               = 2
+    visionAndMission = Memajukan UMKM
+    picture          = gigi.png
 ```
 4. Update a Paslon (Authorization Required)
 
