@@ -56,25 +56,25 @@ Note: you will received token which is used to authorization
 - **URL:** http://localhost:5000/api/v1/article/create
 - **Method:** POST
 - **Form-data Body Example:**
-
-  - `title`: Menghijaukan Bumi
-  - `author`: Renatta
-  - `description`: Kampanye guna untuk menghijaukan bumi
-  - `date`: 2023-02-26
-  - `picture`: renren.png
-
+ ```
+    title = Menghijaukan Bumi
+    author = Renatta
+    description = Kampanye guna untuk menghijaukan bumi
+    date = 2023-02-26
+    picture = renren.png
+```
 4. Update an Article (Authorization Required)
 
 - **URL:** http://localhost:5000/api/v1/article/{article-id}
 - **Method:** PATCH
 - **Form-data Body Example:**
-
-  - `title`: Menghijaukan Bumi
-  - `author`: Renatta
-  - `description`: Kampanye guna untuk menghijaukan bumi
-  - `picture`: renren.png
-  - `date`: 2023-02-26
-
+```
+    title = Menghijaukan Bumi
+    author = Renatta
+    description = Kampanye guna untuk menghijaukan bumi
+    picture = renren.png
+    date = 2023-02-26
+```
 5. Delete an Article (Authorization Required)
 
 - **URL:** http://localhost:5000/api/v1/article/{blog-id}
@@ -115,23 +115,23 @@ Note: you will received token which is used to authorization
 - **URL:** http://localhost:5000/api/v1/paslon/add
 - **Method:** POST
 - **Form-data Body Example:**
-
-  - `name`: Gigi Hadid
-  - `no`: 2
-  - `visionAndMission`: Memajukan UMKM
-  - `picture`: gigi.png
-
+```
+   name = Gigi Hadid
+   no = 2
+   visionAndMission = Memajukan UMKM
+   picture = gigi.png
+```
 4. Update a Paslon (Authorization Required)
 
 - **URL:** http://localhost:5000/api/v1/paslon/{paslon-id}
 - **Method:** PATCH
 - **Form-data Body Example:**
-
-  - `name`: update Gigi Hadid
-  - `no`: update 2
-  - `visionAndMission`: update Memajukan UMKM
-  - `picture`: update gigi.png
-
+```
+    name = update Gigi Hadid
+    no = update 2
+    visionAndMission = update Memajukan UMKM
+    picture = update gigi.png
+```
 5. Delete a Paslon (Authorization Required)
 
 - **URL:** http://localhost:5000/api/v1/paslon/{paslon-id}
@@ -154,27 +154,27 @@ Note: you will received token which is used to authorization
 - **URL:** http://localhost:5000/api/v1/partai/add
 - **Method:** POST
 - **Form-data Body Example:**
-
-  - `name`: Partai Green Flag
-  - `chairman`: Zayn
-  - `visionAndMission`: Membuat jalan tol 
-  - `address`: New York
-  - `picture`: zayn.jpg
-  - `paslon`: 2 (paslonId)
-
+```
+    name = Partai Green Flag
+    chairman = Zayn
+    visionAndMission = Membuat jalan tol 
+    address = New York
+    picture = zayn.jpg
+    paslon : 2 (paslonId)
+```
 4. Update a Partai (Authorization Required)
 
 - **URL:** http://localhost:5000/api/v1/partai/{paslon-id}
 - **Method:** PATCH
 - **Form-data Body Example:**
-
-  - `name`: Update Partai Green Flag
-  - `chairman`: Update Zayn
-  - `visionAndMission`: Update Membuat jalan tol
-  - `address`: Update New York
-  - `picture`: zayn.jpg
-  - `paslon`: 2 (paslonId)
-
+```
+     name = Update Partai Green Flag
+     chairman = Update Zayn
+     visionAndMission = Update Membuat jalan tol
+     address = Update New York
+     picture = zayn.jpg
+     paslon = 2 (paslonId)
+```
 5. Delete a Partai (Authorization Required)
 
 - **URL:** http://localhost:5000/api/v1/partai/{paslon-id}
