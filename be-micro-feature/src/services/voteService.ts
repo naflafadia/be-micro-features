@@ -7,6 +7,18 @@ export default new class VoteService {
 
     async create(data: any): Promise<object | string> {
         try {
+            const checkVoter = await this.VoteRepository.findOne({
+                where: {
+                    user: {
+                        id: data.user
+                    }
+                }
+            })
+
+            if (checkVoter) {
+                return "message: voter already vote"
+            }
+
             const response = await this.VoteRepository.save(data)
             return {
                 message: "success create vote",
@@ -17,7 +29,7 @@ export default new class VoteService {
         }
     }
 
-    async findAll(): Promise<object | string> {
+    async getAll(): Promise<object | string> {
         try {
             const response = await this.VoteRepository.find({
                 relations: ["user", "paslon"],
@@ -44,7 +56,7 @@ export default new class VoteService {
         }
     }
 
-    async findOne(id: number): Promise<object | string> {
+    async getOne(id: number): Promise<object | string> {
         try {
         const response = await this.VoteRepository.findOne({
             where: { id },

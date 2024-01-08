@@ -1,57 +1,9 @@
-import { Repository } from "typeorm";
-import { paslon } from "../entity/paslon";
-import { AppDataSource } from "../data-source";
+import { Repository } from 'typeorm';
+import { paslon } from '../entity/paslon';
+import { AppDataSource } from '../data-source';
 
 export default new class PaslonServices {
-    private readonly PaslonRepository: Repository<paslon> = AppDataSource.getRepository(paslon);
-
-    async findAll(): Promise<object | string> {
-        try {
-            const response = await this.PaslonRepository.find({
-                relations: ["partai"],
-                select: {
-                    partai: {
-                        name: true
-                    }
-                }
-            });
-            return {
-                message: "success get all paslon",
-                data: response
-            };
-        } catch (error) {
-            return "message: something error while get all paslon";
-        }
-    }
-
-    async findOne(id: number): Promise<object | string> {
-        try {
-            const response = await this.PaslonRepository.findOne({
-                where: { id },
-                relations: ["partai"],
-                select: {
-                    partai: {
-                        name: true
-                    }
-                }
-            });
-    
-            if (!response) {
-                return {
-                    message: "Paslon not found",
-                    data: null
-                };
-            }
-    
-            return {
-                message: "success get one paslon",
-                data: response
-            };
-        } catch (error) {
-            console.error("Error while getting one paslon:", error);
-            return "message: something error while getting one paslon";
-        }
-    }
+    private readonly PaslonRepository : Repository<paslon> = AppDataSource.getRepository(paslon)
 
     async create (data: any): Promise<object | string> {
         try {
@@ -74,41 +26,67 @@ export default new class PaslonServices {
         }
     }
 
-    async update(id: number, data: any): Promise<object | string> {
+    async update (id: number, data: any): Promise<object | string> {
         try {
-            const existingPaslon = await this.PaslonRepository.findOne({ where: { id } });
-    
-            if (!existingPaslon) {
-                return "message: Paslon not found";
-            }
-    
-            await this.PaslonRepository.update(id, data);
-            const updatedPaslon = await this.PaslonRepository.findOne({ where: { id } });
-    
+            const response = await this.PaslonRepository.update(id, data)
             return {
                 message: "success update paslon",
-                data: updatedPaslon
-            };
+                data: response
+            }
         } catch (error) {
-            console.error("Error updating paslon:", error);
-            return "message: something error while updating paslon";
+            return "message: something error while update paslon"
         }
     }
 
-    async delete(id: number): Promise<string> {
+    async delete (id: number): Promise<object | string> {
         try {
-            const existingPaslon = await this.PaslonRepository.findOne({ where: { id } });
-    
-            if (!existingPaslon) {
-                return "message: Paslon not found";
+            const response = await this.PaslonRepository.delete(id)
+            return {
+                message: "success delete paslon",
+                data: response
             }
-    
-            await this.PaslonRepository.remove(existingPaslon);
-    
-            return "message: success delete paslon";
         } catch (error) {
-            console.error("Error deleting paslon:", error);
-            return "message: something error while deleting paslon";
+            return "message: something error while delete paslon"
+        }
+    }
+
+    async getAll(): Promise<object | string> {
+        try {
+            const response = await this.PaslonRepository.find({
+                relations: ["partai"],
+                select: {
+                    partai: {
+                        name: true
+                    }
+                }
+            });
+            return {
+                message: "success get all paslon",
+                data: response
+            };
+        } catch (error) {
+            return "message: something error while get all paslon";
+        }
+    }
+
+    async getOne (id: number): Promise<object | string> {
+        try {
+            const response = await this.PaslonRepository.find({
+                where: { id },
+                relations: ["partai"],
+                select: {
+                    partai: {
+                        name: true
+                    }
+                }
+            })
+
+            return {
+                message: "success get one paslon",
+                data: response
+            }
+        } catch (error) {
+            return "message: something error while get one paslon"
         }
     }
 }

@@ -1,17 +1,58 @@
-import { Repository, getManager, UpdateResult } from "typeorm"
-import { article } from "../entity/article"
+import { article } from './../entity/article';
+import { Repository } from "typeorm"
 import { AppDataSource } from "../data-source"
 
 export default new class ArticleServices {
     private readonly ArticleRepository : Repository<article> = AppDataSource.getRepository(article)
 
-    async findAll(): Promise<object | string> {
+    async create(data: article): Promise<object | string> {
+        try {
+            const response = await this.ArticleRepository.save(data)
+            return {
+                message: "success create article",
+                data: response
+            }
+        } catch (error) {
+          console.error("Error in ArticleService.create:", error);
+            return "message: something error while create article"
+        }
+    }
+
+    async update(id: number, data: article): Promise<object | string> {
+        try {
+            const response = await this.ArticleRepository
+                .createQueryBuilder()
+                .update(article)
+                .set(data)
+                .where("id = :id", { id })
+                .execute();
+            return {
+                message: "success update article",
+                data: response
+            }
+        } catch (error) {
+            return "message: something error while update article"
+        }
+    }
+
+    async delete (id: number): Promise<object | string> {
+        try {
+            const response = await this.ArticleRepository.delete ({ id })
+            return {
+                message: "success delete article",
+                data: response
+            }
+        } catch (error) {
+            return "message: something error while delete article"
+        }
+    }
+    async getAll(): Promise<object | string> {
         try {
             const response = await this.ArticleRepository.find({
                 relations: ["user"],
                 select: {
                     user: {
-                        fullName: true
+                        username: true
                     }
                 }
             })
@@ -24,14 +65,14 @@ export default new class ArticleServices {
         }
     }
 
-    async findOne(id: number): Promise<object | string> {
+    async getOne(id: number): Promise<object | string> {
         try {
           const response = await this.ArticleRepository.findOne({
             where: { id },
             relations: ["user"],
             select: {
               user: {
-                fullName: true,
+                username: true,
               },
             },
           });
@@ -65,11 +106,10 @@ export default new class ArticleServices {
             data: response,
           };
         } catch (error) {
-            console.error("Error getting card article:", error);
+          console.error("Error getting card article:", error);
           return `message: something error while getting cards article`;
         }
       }
-
       async getOneArticlesCard(id: number): Promise<object | string> {
         try {
           const response = await this.ArticleRepository.find({
@@ -95,46 +135,4 @@ export default new class ArticleServices {
           return "message: something error while getting card article";
         }
       }
-
-    async create(reqBody: object) : Promise<object> {
-        try {
-            const article = await this.ArticleRepository.save(reqBody);
-
-            return {
-                message: "success",
-                data: article
-            };
-        } catch(error) {
-            throw error;
-        }
-    }
-
-    async update(id: number, data: article): Promise<object | string> {
-        try {
-            const response = await this.ArticleRepository
-                .createQueryBuilder()
-                .update(article)
-                .set(data)
-                .where("id = :id", { id })
-                .execute();
-            return {
-                message: "success update article",
-                data: response
-            }
-        } catch (error) {
-            return "message: something error while update article"
-        }
-    }
-
-    async delete (id: number): Promise<object | string> {
-        try {
-            const response = await this.ArticleRepository.delete ({ id })
-            return {
-                message: "success delete article",
-                data: response
-            }
-        } catch (error) {
-            return "message: something error while delete article"
-        }
-    }
 }

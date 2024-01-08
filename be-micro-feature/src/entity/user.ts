@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne} from "type
 import { vote } from "./vote"
 import { article } from "./article"
 
+export type UserRoleType = "admin" | "editor" | "ghost"
 @Entity({ name: "user" })
 export class user {
   @PrimaryGeneratedColumn()
@@ -22,8 +23,12 @@ export class user {
   @Column()
   password: string
 
-  @Column({ default: "user" })
-  role: string;
+  @Column({
+    type: "enum",
+    enum: ["admin", "editor", "ghost"],
+    default: "ghost",
+})
+role: UserRoleType
 
   @OneToOne(() => vote, (vote) => vote.user, {
     onUpdate: "CASCADE",
