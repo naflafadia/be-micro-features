@@ -104,38 +104,5 @@ export default new class articleController {
                 .status(500)
                 .json({ message: "Internal server error", error: error.message });
             }
-    } 
-    
-    async getAllArticleCard(req: Request, res: Response) {
-        try {
-          const response = await articleService.getAllArticlesCard();
-          return res.status(200).json(response);
-        } catch (error) {
-          console.error("Error getting all articles:", error);
-          return res
-            .status(500)
-            .json({ message: "Internal server error", error: error.message });
-        }
-      }
-      async getOneArticleCard(req: Request, res: Response) {
-        try {
-            const id = parseInt(req.params.id, 10);
-    
-            if (isNaN(id)) {
-                return res.status(400).json({
-                    message: "Invalid ID provided",
-                    error: "Invalid input for type number",
-                });
-            }
-    
-            const response = await articleService.getOneArticlesCard(id);
-            return res.status(200).json(response);
-        } catch (error) {
-            console.error("Error getting a Article:", error);
-            return res.status(500).json({
-                message: "Internal server error",
-                error: error.message,
-            });
-        }
     }
 }

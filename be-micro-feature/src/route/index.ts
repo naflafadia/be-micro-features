@@ -12,12 +12,9 @@ const router = express.Router();
 // Route Article
 router.get('/articles', articleController.getAll)
 router.get('/article/:id', articleController.getOne)
-router.get('/article-card', articleController.getAllArticleCard)
-router.get('/article-card/:id', articleController.getOneArticleCard)
 router.post('/article', AuthMiddleware.Auth, UploadFile.upload("picture"), articleController.create)
 router.patch("/article/:id", AuthMiddleware.Auth, UploadFile.upload("picture"), articleController.update)
 router.delete("/article/:id", AuthMiddleware.Auth, articleController.delete)
-router.put("/article/:id", UploadFile.upload("picture"), articleController.update)
 
 // Route Partai
 router.get('/partais', partaiController.getAll);
