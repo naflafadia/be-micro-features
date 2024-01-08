@@ -25,7 +25,7 @@
     "role": "ghost" (Note: there are three options admin, editor and ghost)
   }
 
-2. Login
+## 2. Login
 
 - **URL:** http://localhost:5000/api/v1/auth/login
 - **Method:** POST
@@ -80,7 +80,7 @@ Note: you will received token which is used to authorization
 - **URL:** http://localhost:5000/api/v1/article/:id
 - **Method:** DELETE
 
-## C. Voter
+# C. Voter
 
 1. Getting All Votes (Authorization Required)
 
@@ -98,7 +98,7 @@ Note: you will received token which is used to authorization
     "no": 2
 }
 ```
-## D. Paslon
+# D. Paslon
 
 1. Getting All Paslons (No Authorization)
 
@@ -137,7 +137,7 @@ Note: you will received token which is used to authorization
 - **URL:** http://localhost:5000/api/v1/paslon/:id
 - **Method:** DELETE
 
-## E. Partai
+# E. Partai
 
 1. Getting All Partais (No Authorization)
 
