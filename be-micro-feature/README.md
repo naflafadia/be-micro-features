@@ -56,7 +56,7 @@ Note: you will received token which is used to authorization
 - **URL:** http://localhost:5000/api/v1/article
 - **Method:** POST
 - **Form-data Body Example:**
- ```
+  ```
     title       = Menghijaukan Bumi
     author      = Renatta
     description = Kampanye guna untuk menghijaukan bumi
@@ -69,11 +69,11 @@ Note: you will received token which is used to authorization
 - **Method:** PATCH
 - **Form-data Body Example:**
   ```
-    title       = Menghijaukan Bumi
-    author      = Renatta
-    description = Kampanye guna untuk menghijaukan bumi
-    picture     = renren.png
-    date        = 2023-02-26
+    title       = Update Menghijaukan Bumi
+    author      = Update Renatta
+    description = Update Kampanye guna untuk menghijaukan bumi
+    picture     = Update renren.png
+    date        = Update 2023-02-26
   ```
 5. Delete an Article (Authorization Required)
 
