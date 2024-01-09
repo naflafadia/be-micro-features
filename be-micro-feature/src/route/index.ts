@@ -38,7 +38,7 @@ router.get('/vote/:id', voteController.getOne)
 // Route Auth
 router.post('/auth/register', authController.register)
 router.post('/auth/login', authController.login)
-router.get('/auth', AuthMiddleware.Auth, authController.getAll)
+router.get('/auth',  authController.getAll)
 router.get('/auth/:id', AuthMiddleware.Auth, authController.getOne)
 
 export default router;

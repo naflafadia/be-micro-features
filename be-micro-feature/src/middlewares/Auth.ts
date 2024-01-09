@@ -15,7 +15,9 @@ export default new class AuthMiddleware {
 
             next()
         } catch (error) {
+            console.error('Error token:', error);
             return res.status(401).json({ message: "token not valid"})
+
         }
     }
 }
