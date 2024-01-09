@@ -95,7 +95,7 @@ Note: you will received token which is used to authorization
 
   ```json
   {
-    "no": 2
+    "paslon": 2
   }
   ```
 ## D. Paslon
